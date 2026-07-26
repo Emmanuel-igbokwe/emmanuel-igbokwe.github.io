@@ -41,6 +41,43 @@
     .nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--purple)!important;padding:.5rem 1.2rem;border-radius:999px;font-weight:700!important;transition:transform .2s,box-shadow .2s!important}
     .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
     .nav-cta::after{display:none!important}
+    .nav-donate{background:rgba(201,168,76,.15);color:var(--gold-light)!important;padding:.5rem 1.2rem;border-radius:999px;font-weight:700!important;border:1.5px solid var(--gold)!important;transition:transform .2s,background .2s!important;font-family:'Cinzel',serif;font-size:.77rem;letter-spacing:.1em;cursor:pointer}
+    .nav-donate:hover{background:rgba(201,168,76,.25)!important;transform:translateY(-2px)}
+    .nav-donate::after{display:none!important}
+    /* DONATE MODAL */
+    .donate-modal{position:fixed;inset:0;z-index:4000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+    .donate-modal.open{opacity:1;pointer-events:all}
+    .donate-backdrop{position:fixed;inset:0;background:rgba(5,2,10,.92);backdrop-filter:blur(14px);z-index:-1}
+    .donate-panel{background:var(--purple);border-radius:22px;border:1px solid rgba(201,168,76,.3);box-shadow:0 40px 100px rgba(0,0,0,.7);max-width:480px;width:100%;overflow:hidden;transform:translateY(20px);transition:transform .35s;position:relative}
+    .donate-modal.open .donate-panel{transform:translateY(0)}
+    .donate-header{background:linear-gradient(135deg,var(--gold),var(--gold-dark));padding:1.8rem 2rem 1.4rem;text-align:center;position:relative}
+    .donate-header h2{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:700;color:var(--purple);letter-spacing:.06em}
+    .donate-header p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(28,16,40,.8);font-style:italic;margin-top:.3rem}
+    .donate-body{padding:1.5rem}
+    .donate-option{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.15);margin-bottom:.8rem;transition:border-color .2s,background .2s}
+    .donate-option:hover{background:rgba(255,255,255,.08);border-color:rgba(201,168,76,.35)}
+    .donate-option-left{display:flex;align-items:center;gap:.9rem}
+    .donate-option-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    .donate-option h4{font-family:'Cinzel',serif;font-size:.78rem;font-weight:700;color:var(--gold-light);letter-spacing:.06em;margin-bottom:.15rem}
+    .donate-option p{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:rgba(255,255,255,.65)}
+    .donate-option .btn{min-width:0;padding:.55rem 1.1rem;font-size:.7rem;flex-shrink:0}
+    /* CLOSE BUTTON — highly visible gold */
+    .modal-x-btn{position:absolute;top:1rem;right:1rem;z-index:20;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--purple);font-size:1.3rem;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:.2s;line-height:1}
+    .modal-x-btn:hover{transform:scale(1.1)}
+    /* BACK BAR at bottom of ministry modal */
+    .modal-back-bar{display:flex;align-items:center;justify-content:center;padding:1.2rem;border-top:1px solid rgba(201,168,76,.15);margin-top:.5rem}
+    .modal-back-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;color:var(--gold-light);background:rgba(201,168,76,.12);border:1.5px solid rgba(201,168,76,.3);border-radius:999px;padding:.65rem 1.5rem;cursor:pointer;transition:.2s}
+    .modal-back-btn:hover{background:rgba(201,168,76,.22)}
+    /* MOBILE FIXES */
+    @media(max-width:480px){
+      .donate-panel{margin:.5rem;border-radius:16px}
+      .donate-option{flex-direction:column;align-items:flex-start;gap:.7rem}
+      .donate-option .btn{align-self:flex-start}
+      .hero h1{font-size:2rem}
+      .nav-inner{padding:.6rem 1rem}
+      .container{padding:0 1rem}
+      .section{padding:4rem 0}
+    }
     /* BUTTONS */
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:.9rem 2rem;border-radius:999px;font-family:'Cinzel',serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;transition:.25s ease;min-width:180px;box-shadow:var(--shadow-gold)}
     .btn:hover{transform:translateY(-3px)}
@@ -299,6 +336,7 @@
       <li><a href="#give">Give</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#live" class="nav-cta">Watch Live</a></li>
+      <li><button class="nav-donate" onclick="openDonateModal()">&#10024; Donate</button></li>
     </ul>
   </nav>
 </header>
@@ -724,7 +762,7 @@
 <div class="video-modal" id="videoModal">
   <div class="vmodal-backdrop" onclick="closeVideoModal()"></div>
   <div class="vmodal-inner">
-    <button class="vmodal-close" onclick="closeVideoModal()">&#10005;</button>
+    <button class="modal-x-btn" onclick="closeVideoModal()" aria-label="Close" style="top:-56px;right:0;position:absolute;">&#10005;</button>
     <div class="vmodal-wrap">
       <video id="praiseVideo" controls playsinline>
         <source src="Praise_video.mov" type="video/mp4">
@@ -739,7 +777,7 @@
 <div class="min-modal" id="ministryModal">
   <div class="mmodal-backdrop" onclick="closeMinistryModal()"></div>
   <div class="mmodal-panel">
-    <button class="mmodal-close" onclick="closeMinistryModal()">&#10005;</button>
+    <button class="modal-x-btn" onclick="closeMinistryModal()" aria-label="Close">&#10005;</button>
     <div class="mmodal-hero">
       <img id="mHeroImg" src="Leaders.jpeg" alt="" />
       <div class="mmodal-hero-overlay"></div>
@@ -750,6 +788,52 @@
       </div>
     </div>
     <div class="mmodal-body" id="mBody"></div>
+    <div class="modal-back-bar">
+      <button class="modal-back-btn" onclick="closeMinistryModal()">&#8592; Back to Ministries</button>
+    </div>
+  </div>
+</div>
+
+<!-- DONATE MODAL -->
+<div class="donate-modal" id="donateModal">
+  <div class="donate-backdrop" onclick="closeDonateModal()"></div>
+  <div class="donate-panel">
+    <button class="modal-x-btn" onclick="closeDonateModal()" aria-label="Close">&#10005;</button>
+    <div class="donate-header">
+      <h2>Give to the Kingdom</h2>
+      <p>We give as an act of worship &amp; gratitude to God</p>
+    </div>
+    <div class="donate-body">
+      <div class="donate-option">
+        <div class="donate-option-left">
+          <div class="donate-option-icon">&#128179;</div>
+          <div><h4>Online Giving</h4><p>SimpleChurch &mdash; secure &amp; instant</p></div>
+        </div>
+        <a class="btn btn-gold" href="https://www.simplechurchgiving.net/app/giving/chri4407263" target="_blank" rel="noopener" onclick="closeDonateModal()">Give Now</a>
+      </div>
+      <div class="donate-option">
+        <div class="donate-option-left">
+          <div class="donate-option-icon">&#128181;</div>
+          <div><h4>Cash App</h4><p>$Christthekingchrisu</p></div>
+        </div>
+        <a class="btn btn-gold" href="https://cash.app/$Christthekingchrisu" target="_blank" rel="noopener" onclick="closeDonateModal()">Open</a>
+      </div>
+      <div class="donate-option">
+        <div class="donate-option-left">
+          <div class="donate-option-icon">&#9889;</div>
+          <div><h4>Zelle</h4><p>CKCCBR@gmail.com</p></div>
+        </div>
+      </div>
+      <div class="donate-option">
+        <div class="donate-option-left">
+          <div class="donate-option-icon">&#9993;</div>
+          <div><h4>Mail a Check</h4><p>4407 N. Sherwood Forest Dr<br>Baton Rouge, LA 70814</p></div>
+        </div>
+      </div>
+      <div class="modal-back-bar" style="padding:.8rem 0 0;">
+        <button class="modal-back-btn" onclick="closeDonateModal()">&#10005; Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -780,7 +864,13 @@
   // Hamburger
   const navToggle = document.getElementById('navToggle');
   const navLinks  = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => { navToggle.classList.toggle('open'); navLinks.classList.toggle('show'); });
+  // Hamburger — closes any open modal first, then toggles nav
+  navToggle.addEventListener('click', () => {
+    closeMinistryModal();
+    closeDonateModal();
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('show');
+  });
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { navToggle.classList.remove('open'); navLinks.classList.remove('show'); }));
 
   // Scroll reveal
@@ -808,7 +898,7 @@
   function switchStream(day) {
     const live = checkIfLiveNow(day);
     // Always use video ID — works live AND as recording. No more "unavailable".
-    const src = 'https://www.youtube.com/embed/' + streamIds[day] + (live ? '?autoplay=1' : '?rel=0');
+    const src = 'https://www.youtube.com/embed/' + streamIds[day] + (live ? '?autoplay=1&rel=0&modestbranding=1' : '?rel=0&modestbranding=1');
     document.getElementById('liveFrame').src = src;
     document.getElementById('liveTitle').textContent = live
       ? (day === 'sunday' ? 'Sunday Worship \u2014 LIVE NOW \uD83D\uDD34' : 'Wednesday Bible Study \u2014 LIVE NOW \uD83D\uDD34')
@@ -848,7 +938,19 @@
     v.pause(); v.currentTime = 0;
   }
 
-  // Ministry modal data
+  // Donate modal
+  function openDonateModal() {
+    document.getElementById('donateModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('show');
+  }
+  function closeDonateModal() {
+    document.getElementById('donateModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Ministry modal
   const mData = {
     sunday: {
       icon:'&#128588;', title:'Sunday Worship Service', tagline:'Every Sunday \u00B7 10:00 AM', img:'Leaders.jpeg',
@@ -863,7 +965,7 @@
 </div>
 <h3>Latest Sunday Service</h3>
 <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1.2rem;border:1px solid rgba(201,168,76,.2);">
-<iframe src="https://www.youtube.com/embed/RnjTwEu7Xck" title="Sunday Worship Service" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+<iframe src="https://www.youtube.com/embed/RnjTwEu7Xck?rel=0&modestbranding=1" title="Sunday Worship Service" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
 </div>
 <a href="https://www.youtube.com/live/RnjTwEu7Xck" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--gold-light);border:1px solid rgba(201,168,76,.3);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.5rem;">&#9654; Watch on YouTube</a>
 <h3>Gallery</h3>
@@ -885,7 +987,7 @@
 </div>
 <h3>Latest Bible Study</h3>
 <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1.2rem;border:1px solid rgba(201,168,76,.2);">
-<iframe src="https://www.youtube.com/embed/Z5FhMYABhtM" title="Wednesday Bible Study" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+<iframe src="https://www.youtube.com/embed/Z5FhMYABhtM?rel=0&modestbranding=1" title="Wednesday Bible Study" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
 </div>
 <a href="https://www.youtube.com/live/Z5FhMYABhtM" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--gold-light);border:1px solid rgba(201,168,76,.3);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.5rem;">&#9654; Watch on YouTube</a>
 <h3>Gallery</h3>
@@ -928,7 +1030,7 @@
 </div>
 <h3>Women Conference Replay</h3>
 <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1.2rem;border:1px solid rgba(201,168,76,.2);">
-<iframe src="https://www.youtube.com/embed/yThPsn15Pog" title="Women Ministry Conference" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+<iframe src="https://www.youtube.com/embed/yThPsn15Pog?rel=0&modestbranding=1" title="Women Ministry Conference" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
 </div>
 <a href="https://www.youtube.com/live/yThPsn15Pog" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--gold-light);border:1px solid rgba(201,168,76,.3);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.5rem;">&#9654; Watch on YouTube</a>
 <h3>Gallery</h3>
@@ -953,7 +1055,7 @@
 </div>
 <h3>Men Conference Replay</h3>
 <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1.2rem;border:1px solid rgba(201,168,76,.2);">
-<iframe src="https://www.youtube.com/embed/p3RnTAoOsuk" title="Men Ministry Conference" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+<iframe src="https://www.youtube.com/embed/p3RnTAoOsuk?rel=0&modestbranding=1" title="Men Ministry Conference" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
 </div>
 <a href="https://www.youtube.com/live/p3RnTAoOsuk" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--gold-light);border:1px solid rgba(201,168,76,.3);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.5rem;">&#9654; Watch on YouTube</a>
 <h3>Updates &amp; Gallery</h3>
@@ -1046,9 +1148,10 @@
     document.body.style.overflow = '';
   }
   document.addEventListener('keydown', e => {
-    if(e.key === 'Escape'){ closeMinistryModal(); closeVideoModal(); }
+    if(e.key === 'Escape'){ closeMinistryModal(); closeVideoModal(); closeDonateModal(); }
   });
 </script>
 </body>
 </html>
+
 
